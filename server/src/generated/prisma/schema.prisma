@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  ONLINE
+  OFFLINE
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  username       String    @unique
+  email          String    @unique
+  password       String
+  status         Status    @default(ACTIVE)
+  lastActiveTime DateTime  @default(now())
+  contactsOfUser Contact[] @relation("userContacts")
+  AsContact      Contact[] @relation("userAsContact")
+  memberOf       Members[]
+  message        Message[]
+}
+
+model Contact {
+  id        Int  @id @default(autoincrement())
+  userId    Int
+  contactId Int
+  user      User @relation("userContacts", fields: [userId], references: [id])
+  contact   User @relation("userAsContact", fields: [contactId], references: [id])
+
+  @@unique([userId, contactId])
+}
+
+enum Type {
+  SINGLE
+  GROUP
+}
+
+model Group {
+  id        Int       @id @default(autoincrement())
+  type      Type
+  Name      String
+  CreatedAt DateTime  @default(now())
+  members   Members[]
+  message   Message[]
+}
+
+model Members {
+  id       Int       @id @default(autoincrement())
+  userId   Int
+  groupId  Int
+  user     User      @relation(fields: [userId], references: [id])
+  group    Group     @relation(fields: [groupId], references: [id])
+  joinedAt DateTime  @default(now())
+  leftAt   DateTime?
+
+  @@unique([userId, groupId])
+}
+
+enum ACK {
+  SINGLE
+  DOUBLE
+  BLUE
+}
+
+model Message {
+  id            Int      @id @default(autoincrement())
+  groupId       Int
+  group         Group    @relation(fields: [groupId], references: [id])
+  senderId      Int
+  Sender        User     @relation(fields: [senderId], references: [id])
+  content       String
+  sendTimeStamp DateTime @default(now())
+  ack           ACK      @default(SINGLE)
+}
