@@ -1,1 +1,36 @@
 node_modules
+/src/generated/prisma
+.env
+
+# =========================
+# Node / TypeScript
+# =========================
+node_modules/
+dist/
+*.tsbuildinfo
+
+# =========================
+# Environment & Secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Logs & Runtime Artifacts
+# =========================
+logs/
+*.log
+
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+Thumbs.db
+.vscode/
+!.vscode/extensions.json
+
+# =========================
+# Coverage / Tests
+# =========================
+coverage/
