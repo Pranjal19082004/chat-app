@@ -2,7 +2,7 @@ node_modules
 /src/generated/prisma
 .env
 
-backend
+
 # =========================
 # Node / TypeScript
 # =========================

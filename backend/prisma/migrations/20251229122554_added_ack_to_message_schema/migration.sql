@@ -1,0 +1,5 @@
+-- CreateEnum
+CREATE TYPE "ACK" AS ENUM ('SINGLE', 'DOUBLE', 'BLUE');
+
+-- AlterTable
+ALTER TABLE "Message" ADD COLUMN     "ack" "ACK" NOT NULL DEFAULT 'SINGLE';
