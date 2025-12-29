@@ -10,6 +10,7 @@ const listUserContactReqSchema = z.object(
   },
   "not a error"
 );
+// contacts will only be used to start conversation or get members to create groups
 export async function listUserContact(req: authRequest, res: Response) {
   try {
     const {
@@ -41,3 +42,7 @@ export async function listUserContact(req: authRequest, res: Response) {
     }
   }
 }
+// add contact
+//delete contact
+//update contact 
+// block a contact 

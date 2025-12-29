@@ -88,3 +88,7 @@ async function leaveGroup(req: authRequest, res: Response) {
     }
   }
 }
+
+
+// get all the group user is part of 
+// first take all entries of members (participant table )--> group id 
