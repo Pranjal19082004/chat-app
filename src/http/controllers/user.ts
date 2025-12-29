@@ -1,6 +1,8 @@
+import type { authRequest } from "../types/types.ts";
 import { Prisma } from "../utility/prismaClient.js";
 import { z } from "zod";
-async function userInfo(req, res) {
+import type { Response } from "express";
+async function userInfo(req: authRequest, res: Response) {
   try {
     const userId = z.number().parse(req.user);
     const foundUser = await Prisma.user.findUnique({
@@ -12,4 +14,3 @@ async function userInfo(req, res) {
     return res.status(400).json({ message: "cant find the user" });
   }
 }
-//# sourceMappingURL=user.controller.js.map

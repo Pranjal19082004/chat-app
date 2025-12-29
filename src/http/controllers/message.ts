@@ -1,7 +1,9 @@
+import type { authRequest } from "../types/types.ts";
 import { number, optional, z, ZodE164, ZodError } from "zod";
 import { Prisma } from "../utility/prismaClient.js";
+import type { Response } from "express";
 import { FileWatcherEventKind } from "typescript";
-export async function getMessages(req, res) {
+export async function getMessages(req: authRequest, res: Response) {
   try {
     const groupId = z.number().parse(req.params.groupId);
     const { pageSize, lastMessageId } = z
@@ -29,19 +31,21 @@ export async function getMessages(req, res) {
         take: pageSize,
       });
     }
+
     return res.status(200).json({ messages });
   } catch (e) {
     return res.status(404).json({ error: "cant find any messages" });
   }
 }
-export async function DeleteMessage(req, res) {
+
+export async function DeleteMessage(req: authRequest, res: Response) {
   const userId = z.number().parse(req.user.userId);
   const { messageId } = z.object({ messageId: z.number() }).parse(req.body);
   const deleteMessageRes = await Prisma.message.delete({
     where: { id: messageId },
   });
 }
-export async function updateMessage(req, res) {
+export async function updateMessage(req: authRequest, res: Response) {
   try {
     const mssgId = z.number().parse(req.body.mssgId);
     const cont = z.string().parse(req.body.cont);
@@ -66,4 +70,3 @@ export async function updateMessage(req, res) {
     return res.status(404).json({ message: "message cant be updated" });
   }
 }
-//# sourceMappingURL=message.controller.js.map

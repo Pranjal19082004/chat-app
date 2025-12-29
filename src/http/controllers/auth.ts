@@ -1,6 +1,7 @@
+import type { Request, Response } from "express";
 import z from "zod";
 import bcrypt from "bcrypt";
-import { Prisma } from "../utility/prismaClient.js";
+import { Prisma } from "../utility/prismaClient.ts";
 import router from "../routes/auth.routes.js";
 import jwt from "jsonwebtoken";
 const signupZod = z.object({
@@ -8,7 +9,7 @@ const signupZod = z.object({
   password: z.string().min(1),
   email: z.email().min(1),
 });
-export async function signUp(req, res) {
+export async function signUp(req: Request, res: Response): Promise<Response> {
   try {
     const { username, email, password } = signupZod.parse(req.body);
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -29,7 +30,7 @@ const signinSchema = z.object({
   email: z.email().min(1),
   password: z.string().min(1),
 });
-export async function signin(req, res) {
+export async function signin(req: Request, res: Response) {
   try {
     const { email, password } = signinSchema.parse(req.body);
     const findUser = await Prisma.user.findUnique({
@@ -62,4 +63,5 @@ export async function signin(req, res) {
     return res.status(500).json({ message: "internal server error" });
   }
 }
-export async function lastOnline(req, res) {}
+
+export async function lastOnline(req: Request, res: Response) {}

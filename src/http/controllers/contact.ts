@@ -1,13 +1,16 @@
 // return a array of all the registered contact of a user
+
+import type { Request, Response } from "express";
 import { object, z } from "zod";
 import { Prisma } from "../utility/prismaClient.js";
+import type { authRequest } from "../types/types.js";
 const listUserContactReqSchema = z.object(
   {
     user: z.object({ userId: z.number("id is not present") }),
   },
   "not a error"
 );
-export async function listUserContact(req, res) {
+export async function listUserContact(req: authRequest, res: Response) {
   try {
     const {
       user: { userId: id },
@@ -24,6 +27,7 @@ export async function listUserContact(req, res) {
         },
       },
     });
+
     const contacts = findUser?.contactsOfUser?.map((x) => x.contact);
     if (typeof contacts != "undefined") {
       return res.json({ contacts });

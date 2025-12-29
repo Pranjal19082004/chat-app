@@ -1,9 +1,10 @@
-import { response } from "express";
+import { response, type Request, type Response } from "express";
 import { Prisma } from "../utility/prismaClient.js";
-import { Type } from "../generated/prisma/index.js";
-import z, { treeifyError, ZodError } from "zod";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
+import { Type } from "../../generated/prisma/index.js";
+import z, {  ZodError } from "zod";
 import type { authRequest } from "../types/types.js";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
+
 //create a group api
 const createGroupRequestSchema = z.object({
   type: z.enum(["SINGLE", "GROUP"]),
@@ -41,12 +42,14 @@ export async function createGroup(req: authRequest, res: Response) {
     }
   }
 }
+
 //join a group api
 const joinGroupRequestSchema = z.object({ groupId: z.number() });
-export async function joinGroup(req, res) {
+export async function joinGroup(req: authRequest, res: Response) {
   // need a group id and user id to make entry to the member
   try {
     const userId = z.number().parse(req.user.userId);
+
     const { groupId } = joinGroupRequestSchema.parse(req.body.groupId);
     const joinGroupRes = await Prisma.members.create({
       data: { userId, groupId },
@@ -62,12 +65,14 @@ export async function joinGroup(req, res) {
     }
   }
 }
+
 // leave a group api
 const leaveGroupRequestSchema = z.object({ groupId: z.number() });
-async function leaveGroup(req, res) {
+async function leaveGroup(req: authRequest, res: Response) {
   try {
     const userId = z.number().parse(req.user.userId);
     const { groupId } = leaveGroupRequestSchema.parse(req.body);
+
     const leaveGroupRes = await Prisma.members.update({
       where: { userId_groupId: { userId, groupId } },
       data: { leftAt: new Date() },
