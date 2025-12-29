@@ -1,5 +1,5 @@
-import type { authRequest } from "../types/types.ts";
-import { Prisma } from "../utility/prismaClient.js";
+import type { authRequest } from "../../types/types.js";
+import { Prisma } from "../../utility/prismaClient.js";
 import { z } from "zod";
 import type { Response } from "express";
 async function userInfo(req: authRequest, res: Response) {

@@ -1,6 +1,7 @@
-import type { authRequest } from "../types/types.ts";
+import type { authRequest } from "../../types/types.js";
 import { number, optional, z, ZodE164, ZodError } from "zod";
-import { Prisma } from "../utility/prismaClient.js";
+import { Prisma } from "../../utility/prismaClient.js";
+// import { Prisma } from "../utility/prismaClient.js";
 import type { Response } from "express";
 import { FileWatcherEventKind } from "typescript";
 export async function getMessages(req: authRequest, res: Response) {

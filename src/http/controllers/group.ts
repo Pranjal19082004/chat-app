@@ -1,8 +1,8 @@
 import { response, type Request, type Response } from "express";
-import { Prisma } from "../utility/prismaClient.js";
+import { Prisma } from "../../utility/prismaClient.js";
 import { Type } from "../../generated/prisma/index.js";
-import z, {  ZodError } from "zod";
-import type { authRequest } from "../types/types.js";
+import z, { ZodError } from "zod";
+import type { authRequest } from "../../types/types.js";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 
 //create a group api

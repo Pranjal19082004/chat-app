@@ -2,8 +2,8 @@
 
 import type { Request, Response } from "express";
 import { object, z } from "zod";
-import { Prisma } from "../utility/prismaClient.js";
-import type { authRequest } from "../types/types.js";
+import { Prisma } from "../../utility/prismaClient.js";
+import type { authRequest } from "../../types/types.js";
 const listUserContactReqSchema = z.object(
   {
     user: z.object({ userId: z.number("id is not present") }),

@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import z from "zod";
 import bcrypt from "bcrypt";
-import { Prisma } from "../utility/prismaClient.ts";
+import { Prisma } from "../../utility/prismaClient.js";
 import router from "../routes/auth.routes.js";
 import jwt from "jsonwebtoken";
 const signupZod = z.object({
