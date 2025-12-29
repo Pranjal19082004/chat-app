@@ -1,14 +1,16 @@
-import express from "express";
-import authRouter from "./routes/auth.routes.js";
-import { createServer } from "http";
 import { WebSocketServer } from "ws";
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded());
-//routes
-// signin routes
-app.use("/api/auth", authRouter);
+import { onConnect } from "./wss/handlers/onConnect.js";
 
-const server = createServer(app);
-const wss = new WebSocketServer({ server });
-wss.on("connection", (connection, req) => {});
+function initWebSocketServer(server: any) {
+  const wss = new WebSocketServer({ server });
+  wss.on("connection", (ws, req) => {
+    try {
+      onConnect(ws, req);
+      ws.on();
+    } catch (e) {
+      console.log(e);
+    }
+  });
+  return wss;
+}
+export default initWebSocketServer;
