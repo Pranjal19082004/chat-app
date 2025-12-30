@@ -1,16 +1,22 @@
 import type { authRequest } from "../../types/types.js";
 import { Prisma } from "../../utility/prismaClient.js";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import type { Response } from "express";
-async function userInfo(req: authRequest, res: Response) {
+export async function userInfo(req: authRequest, res: Response) {
   try {
-    const userId = z.number().parse(req.user);
+    // const userId = z.number().parse(req.user);
+    const userId = z.string().pipe(z.coerce.number()).parse(req.params.id);
+    console.log(req.params);
     const foundUser = await Prisma.user.findUnique({
       where: { id: userId },
       omit: { password: true },
     });
-    return res.status(200).json({ message: "user found", data: { foundUser } });
+    return res.status(200).json({ message: "user found", foundUser });
   } catch (e) {
+    if (e instanceof ZodError) {
+      console.log(e);
+      return res.status(400).json({ message: "bad request" });
+    }
     return res.status(400).json({ message: "cant find the user" });
   }
 }

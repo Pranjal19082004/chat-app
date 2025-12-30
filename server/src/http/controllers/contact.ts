@@ -1,12 +1,15 @@
 // return a array of all the registered contact of a user
 
 import type { Request, Response } from "express";
-import { object, z } from "zod";
+import { object, z, ZodError } from "zod";
 import { Prisma } from "../../utility/prismaClient.js";
 import type { authRequest } from "../../types/types.js";
+import { isReturnStatement } from "typescript";
 const listUserContactReqSchema = z.object(
   {
-    user: z.object({ userId: z.number("id is not present") }),
+    user: z.object({
+      userId: z.number(),
+    }),
   },
   "not a error"
 );
@@ -42,7 +45,53 @@ export async function listUserContact(req: authRequest, res: Response) {
     }
   }
 }
-// add contact
+const addUserContactSchema = z.object({
+  user: z.object({ userId: z.number() }),
+  body: z.object({
+    contactId: z.string().pipe(z.coerce.number()),
+  }),
+});
+export async function addUserContact(req: authRequest, res: Response) {
+  try {
+    console.log(req);
+    const {
+      user: { userId },
+      body: { contactId },
+    } = addUserContactSchema.parse(req);
+    if (userId === contactId) {
+      return res
+        .status(400)
+        .json({ message: "cant make contact with yourself" });
+    }
+    const addedContactRes = await Prisma.contact.create({
+      data: { userId, contactId },
+      select: { id: true },
+    });
+    return res
+      .status(200)
+      .json({ message: "added contact", id: addedContactRes.id });
+  } catch (e) {
+    //@ts-ignore
+    console.log(e?.issues);
+    if (e instanceof ZodError) {
+      return res.status(400).json({ error: "bad Request" });
+    } else {
+      return res.status(400).json({ error: "cant create" });
+    }
+  }
+}
 //delete contact
-//update contact 
-// block a contact 
+
+export async function deletContact(req: authRequest, res: Response) {
+  try {
+    const contactId = z.number().parse(req.query.contactId);
+    const userId = z.number().parse(req.user.userId);
+    await Prisma.contact.delete({
+      where: { userId_contactId: { contactId, userId } },
+    });
+    return res.status(200).json({ message: "contact deleted successfully" });
+  } catch (e) {
+    return res.status(400).json({ error: "error" });
+  }
+}
+

@@ -1,9 +1,7 @@
 import type { authRequest } from "../../types/types.js";
-import { number, optional, z, ZodE164, ZodError } from "zod";
+import { z, ZodError } from "zod";
 import { Prisma } from "../../utility/prismaClient.js";
-// import { Prisma } from "../utility/prismaClient.js";
 import type { Response } from "express";
-import { FileWatcherEventKind } from "typescript";
 export async function getMessages(req: authRequest, res: Response) {
   try {
     const groupId = z.number().parse(req.params.groupId);
@@ -40,11 +38,15 @@ export async function getMessages(req: authRequest, res: Response) {
 }
 
 export async function DeleteMessage(req: authRequest, res: Response) {
-  const userId = z.number().parse(req.user.userId);
-  const { messageId } = z.object({ messageId: z.number() }).parse(req.body);
-  const deleteMessageRes = await Prisma.message.delete({
-    where: { id: messageId },
-  });
+  try {
+    const userId = z.number().parse(req.user.userId);
+    const { messageId } = z.object({ messageId: z.number() }).parse(req.params);
+    const deleteMessageRes = await Prisma.message.delete({
+      where: { senderId: userId, id: messageId },
+    });
+  } catch (e) {
+    res.status(400).json({ error: "cant delete you message" });
+  }
 }
 export async function updateMessage(req: authRequest, res: Response) {
   try {

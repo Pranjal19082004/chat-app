@@ -1,11 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
-import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 export function authMiddleware(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
+	
     let token = req.headers.authorization ?? " ";
     token = token.split(" ")[1] ?? " ";
     if (!token) {
@@ -17,9 +18,9 @@ export function authMiddleware(
     req.user = payload;
     next();
   } catch (e) {
-    if (e instanceof JsonWebTokenError) {
+    if (e instanceof jwt.JsonWebTokenError) {
       return res.json(403).json({ message: "please signin" });
-    } else if (e instanceof TokenExpiredError) {
+    } else if (e instanceof jwt.TokenExpiredError) {
       return res.status(403).json({ message: "your token is expired" });
     }
     return res.status(500).json({ message: "internal server error" });
