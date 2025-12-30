@@ -10,7 +10,12 @@ export const WsMssgMethodsArray = [
 
 export const wsMessageSchema = z.object({
   method: z.enum(WsMssgMethodsArray),
-  payload: z.object(),
+  payload: z.object({
+    senderId: z.string(),
+    groupId: z.string(),
+    content: z.string(),
+    chatId: z.string(),
+  }),
 });
 export type wsMessageSchemaType = z.infer<typeof wsMessageSchema>;
 
