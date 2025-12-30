@@ -4,7 +4,7 @@ const groupFunctions = {
   get: (groupId: number): number[] | undefined => mp.get(groupId),
   set: (groupId: number, userId: number): void => {
     if (typeof mp.get(groupId) != "undefined") {
-      mp.get(userId);
+      mp.get(groupId)?.push(userId);
     } else {
       mp.set(groupId, [userId]);
     }

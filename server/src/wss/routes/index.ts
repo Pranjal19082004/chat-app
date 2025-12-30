@@ -1,9 +1,9 @@
 import type WebSocket from "ws";
 import type { WsMssgMethod } from "../../types/wsTypes.js";
-import { groupChatController ,singleChatController } from "../controllers/chat.controller.js";
+import { singleChatController } from "../controllers/chat.controller.js";
 const routes: Record<
   WsMssgMethod,
-  (payload: Record<string, never>, ws: WebSocket) => Promise<void>
+  (payload: Record<string, string>, ws: WebSocket) => Promise<void>
 > = {
   CHAT: singleChatController,
   GROUP_CHAT: async () => {},
