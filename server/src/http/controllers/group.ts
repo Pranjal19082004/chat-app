@@ -51,6 +51,7 @@ export async function createGroup(req: authRequest, res: Response) {
 }
 
 //join a group api
+// to be removed since it is will done using webSocket
 const joinGroupRequestSchema = z.object({
   groupId: z.string().pipe(z.coerce.number()),
 });
@@ -98,5 +99,5 @@ export async function leaveGroup(req: authRequest, res: Response) {
   }
 }
 
-// get all the group user is part of
+// to get all the groups, a user is part of :
 // first take all entries of members (participant table )--> group id

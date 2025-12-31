@@ -80,6 +80,8 @@ export async function addUserContact(req: authRequest, res: Response) {
     }
   }
 }
+
+//not tested 
 //delete contact
 
 export async function deletContact(req: authRequest, res: Response) {

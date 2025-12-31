@@ -36,7 +36,7 @@ export async function getMessages(req: authRequest, res: Response) {
     return res.status(404).json({ error: "cant find any messages" });
   }
 }
-
+// not really needed since that will be done on websockets
 export async function DeleteMessage(req: authRequest, res: Response) {
   try {
     const userId = z.number().parse(req.user.userId);
@@ -48,6 +48,7 @@ export async function DeleteMessage(req: authRequest, res: Response) {
     res.status(400).json({ error: "cant delete you message" });
   }
 }
+// will not be needed since that will be done on websockets 
 export async function updateMessage(req: authRequest, res: Response) {
   try {
     const mssgId = z.number().parse(req.body.mssgId);
