@@ -3,12 +3,17 @@ import type { WsMssgMethod } from "../../types/wsTypes.js";
 import { singleChatController } from "../controllers/chat.controller.js";
 const routes: Record<
   WsMssgMethod,
-  (payload: Record<string, string>, ws: WebSocket) => Promise<void>
+  (payload: object, ws: WebSocket) => Promise<void>
 > = {
   CHAT: singleChatController,
-  GROUP_CHAT: async () => {},
-  MESSAGE_ACK: async () => {},
-  READ: async () => {},
+  MESSAGE: async () => {},
+  GROUP_MESSAGE: async () => {},
+  UPDATE_MESSAGE: async () => {},
+  DELETE_MESSAGE: async () => {},
+  TYPING_MESSAGE: async () => {},
+  ACK_MESSAGE: async () => {},
+  JOIN_GROUP: async () => {},
+  LEAVE_GROUP: async () => {},
 };
 const router = Object.freeze(routes);
 export default router;
