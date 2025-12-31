@@ -1,11 +1,15 @@
 import { record, z } from "zod";
 
-export type WsMssgMethod = "CHAT" | "GROUP_CHAT" | "MESSAGE_ACK" | "READ";
+export type WsMssgMethod ="MESSAGE"| "GROUP_MESSAGE" | "UPDATE_MESSAGE" | "DELETE_MESSAGE" | "TYPING_MESSAGE"| "ACK_MESSAGE"| "JOIN_GROUP"| "LEAVE_GROUP";
 export const WsMssgMethodsArray = [
-  "CHAT",
-  "GROUP_CHAT",
-  "MESSAGE_ACK",
-  "READ",
+  "MESSAGE",
+  "GROUP_MESSAGE",
+  "UPDATE_MESSAGE",
+  "DELETE_MESSAGE",
+  "TYPING_MESSAGE",
+  "ACK_MESSAGE",
+  "JOIN_GROUP",
+  "LEAVE_GROUP",
 ] as const;
 
 export const wsMessageSchema = z.object({
