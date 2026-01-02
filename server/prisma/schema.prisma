@@ -67,6 +67,7 @@ enum ACK {
 	DOUBLE
 	BLUE
 }
+
 model Message {
     id            Int      @id @default(autoincrement())
     groupId       Int
@@ -76,4 +77,5 @@ model Message {
     content       String
     sendTimeStamp DateTime @default(now())
 	ack 		  ACK 	   @default(SINGLE)
+	deleted		  Boolean @default(false)
 }
