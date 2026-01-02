@@ -1,5 +1,5 @@
 node_modules
-/src/generated/prisma
+server/src/generated/**
 .env
 
 backend
