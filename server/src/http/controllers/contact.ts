@@ -1,10 +1,9 @@
 // return a array of all the registered contact of a user
 
-import type { Request, Response } from "express";
+import { response, type Request, type Response } from "express";
 import { object, z, ZodError } from "zod";
 import { Prisma } from "../../utility/prismaClient.js";
 import type { authRequest } from "../../types/types.js";
-import { isReturnStatement } from "typescript";
 const listUserContactReqSchema = z.object(
   {
     user: z.object({
@@ -48,7 +47,7 @@ export async function listUserContact(req: authRequest, res: Response) {
 const addUserContactSchema = z.object({
   user: z.object({ userId: z.number() }),
   body: z.object({
-    contactId: z.string().pipe(z.coerce.number()),
+    contactId: z.number(),
   }),
 });
 export async function addUserContact(req: authRequest, res: Response) {

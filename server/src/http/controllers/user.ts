@@ -5,8 +5,7 @@ import type { Response } from "express";
 export async function userInfo(req: authRequest, res: Response) {
   try {
     // const userId = z.number().parse(req.user);
-    const userId = z.string().pipe(z.coerce.number()).parse(req.params.id);
-    console.log(req.params);
+    const userId = z.number().parse(req.params.id);
     const foundUser = await Prisma.user.findUnique({
       where: { id: userId },
       omit: { password: true },

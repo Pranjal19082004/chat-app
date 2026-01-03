@@ -9,7 +9,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 const createGroupRequestSchema = z.object({
   type: z.enum(["SINGLE", "GROUP"]),
   Name: z.string(),
-  data: z.array(z.string().pipe(z.coerce.number())), // data will conatin userid  array who will be joining the group
+  data: z.array(z.number()), // data will conatin userid  array who will be joining the group
 });
 export async function createGroup(req: authRequest, res: Response) {
   // we will need id of the user to make him the part of the group
@@ -49,11 +49,26 @@ export async function createGroup(req: authRequest, res: Response) {
     }
   }
 }
-
-//join a group api
+5;
+export async function getUserGroup(req: authRequest, res: Response) {
+  try {
+    const userId = z.number().parse(req.user.userId);
+    const findGroupRes = await Prisma.members.findMany({
+      where: { userId },
+      select: { groupId: true, group: { select: { Name: true } } },
+    });
+    const userGroupsList = findGroupRes.map((x) => {
+      return { groupId: x.groupId, groupName: x.group.Name };
+    });
+    return res.status(200).json({ groups: userGroupsList });
+  } catch (e) {
+    res.status(500).json({ error: "internal server error" });
+  }
+}
 // to be removed since it is will done using webSocket
+//join a group api
 const joinGroupRequestSchema = z.object({
-  groupId: z.string().pipe(z.coerce.number()),
+  groupId: z.number(),
 });
 export async function joinGroup(req: authRequest, res: Response) {
   // need a group id and user id to make entry to the member

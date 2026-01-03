@@ -5,8 +5,11 @@ import type { Response } from "express";
 export async function getMessages(req: authRequest, res: Response) {
   try {
     const groupId = z.number().parse(req.params.groupId);
-    const { pageSize, lastMessageId } = z
-      .object({ pageSize: z.number(), lastMessageId: z.number().optional() })
+    const { pageSize = 20, lastMessageId } = z
+      .object({
+        pageSize: z.number().optional(),
+        lastMessageId: z.number().optional(),
+      })
       .parse(req.query);
     let messages = [];
     if (lastMessageId) {
@@ -48,7 +51,7 @@ export async function DeleteMessage(req: authRequest, res: Response) {
     res.status(400).json({ error: "cant delete you message" });
   }
 }
-// will not be needed since that will be done on websockets 
+// will not be needed since that will be done on websockets
 export async function updateMessage(req: authRequest, res: Response) {
   try {
     const mssgId = z.number().parse(req.body.mssgId);
