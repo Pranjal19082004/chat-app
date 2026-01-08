@@ -11,6 +11,7 @@ readack : ACK_MESSAGE
 
 join a group : JOIN_GROUP
 leave a grp : LEAVE_GROUP
+recieve message that somebody has left the group :LEFT_GROUP
 
 rest api :
 fetch chat history
