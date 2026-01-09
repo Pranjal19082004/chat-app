@@ -10,7 +10,7 @@ const apiClient = axios.create({
 });
 apiClient.interceptors.request.use(
   (c) => {
-    if (!localStorage.getItem("token")) {
+    if (!localStorage.getItem("token") && !c.url?.includes("sign-in")) {
       return Promise.reject("NO_AUTH_TOKEN");
     }
     return c;
@@ -19,7 +19,10 @@ apiClient.interceptors.request.use(
     return Promise.reject("NO_AUTH_TOKEN");
   }
 );
-apiClient.interceptors.response.use((c) => {
-  return c.data;
-});
+apiClient.interceptors.response.use(
+  (c) => {
+    return c.data;
+  },
+  (err) =>  Promise.reject(err)
+);
 export { apiClient };
