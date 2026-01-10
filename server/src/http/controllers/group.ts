@@ -55,10 +55,18 @@ export async function getUserGroup(req: authRequest, res: Response) {
     const userId = z.number().parse(req.user.userId);
     const findGroupRes = await Prisma.members.findMany({
       where: { userId },
-      select: { groupId: true, group: { select: { Name: true } } },
+      select: {
+        groupId : true,
+        group: { select: { Name: true, type: true, CreatedAt: true } },
+      },
     });
     const userGroupsList = findGroupRes.map((x) => {
-      return { groupId: x.groupId, groupName: x.group.Name };
+      return {
+        groupId: x.groupId,
+        groupName: x.group.Name,
+        type: x.group.type,
+        createdAt: x.group.CreatedAt,
+      };
     });
     return res.status(200).json({ groups: userGroupsList });
   } catch (e) {

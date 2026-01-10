@@ -41,23 +41,26 @@ const signinSchema = z.object({
 });
 export async function signin(req: Request, res: Response) {
   try {
-	  console.log(-1);
+    console.log(-1);
     const { email, password } = signinSchema.parse(req.body);
     console.log(0);
     const findUser = await Prisma.user.findUnique({
       where: { email },
-      select: { username: true, email: true, password: true, status: true ,id:true },
+      select: {
+        username: true,
+        email: true,
+        password: true,
+        status: true,
+        id: true,
+      },
     });
-    console.log(1);
     if (!findUser) {
       return res.status(404).json({ message: "no user found" });
     }
     const b = await bcrypt.compare(password, findUser.password);
-    console.log(2);
     if (!b) {
       return res.status(401).json({ error: "password is incorrect" });
     }
-    console.log(3);
     // jwt genrate
     const key = process.env.JWT_SECRET_KEY;
     if (typeof key != "undefined") {
@@ -66,12 +69,14 @@ export async function signin(req: Request, res: Response) {
           username: findUser.username,
           email: findUser.email,
           status: findUser.status,
-		  userId:findUser.id
+          userId: findUser.id,
         },
         key
       );
-      console.log(1);
-      return res.status(200).json({ message: "signed in", jwt: token });
+      const { password, ...userInfo } = findUser;
+      return res
+        .status(200)
+        .json({ message: "signed in", token, ...userInfo,userId:userInfo.id });
     } else {
       console.log("please provide jwt private key");
       throw new Error("jwt private key not defined");
@@ -80,5 +85,5 @@ export async function signin(req: Request, res: Response) {
     return res.status(500).json({ message: "internal server error" });
   }
 }
-//todo : to make it later 
+//todo : to make it later
 export async function lastOnline(req: Request, res: Response) {}
