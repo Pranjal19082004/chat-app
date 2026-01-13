@@ -10,3 +10,8 @@ export const LOGIN_SUCCESSFUL = createAction<{
 export const CHANGE_CHAT = createAction<{ groupId: number; groupName: string }>(
   "CHANGE_CHAT"
 );
+
+export const SOCKET_CONNECTED = createAction("SOCKET_CONNECTED");
+export const SEND_MESSAGE_TO_WS = createAction<{ message: string }>(
+  "SEND_MESSAGE_TO_WS"
+);
