@@ -8,7 +8,7 @@ const contactSlice = createSlice({
       curr,
       { payload }: { payload: { contactId: number; contactName: string }[] }
     ) => {
-      curr = payload;
+	  return payload
     },
   },
 });

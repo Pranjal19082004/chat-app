@@ -4,14 +4,16 @@ const groupSlice = createSlice({
   name: "groups",
   initialState,
   reducers: {
-    changeGroupList: (
-      curr,
-      { payload }: { payload: { groupId: number; groupName: string }[] }
+    replaceGroupList: (
+      _,
+      { payload }: { payload: { groupName: string; groupId: number }[] }
     ) => {
-      curr = payload;
+      return payload.map((x) => {
+       return{groupId: x.groupId, groupName:x.groupName}
+      });
     },
   },
 });
 
-export const { changeGroupList } = groupSlice.actions;
+export const { replaceGroupList } = groupSlice.actions;
 export default groupSlice.reducer;

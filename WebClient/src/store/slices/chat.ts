@@ -7,27 +7,31 @@ interface message {
   ack: "SINGLE" | "DOUBLE" | "BLUE";
   deleted: boolean;
 }
-
-const initialState: {
+interface chatSchema {
   groupId: number | null;
   type: "SINGLE" | "GROUP";
-  stale: boolean;
   messages: message[];
-} = {
+  groupName: string;
+}
+const initialState: chatSchema = {
   groupId: null,
   type: "SINGLE",
-  stale: false,
   messages: [],
+  groupName: "",
 };
 const chatSlice = createSlice({
   name: "chats",
   initialState,
-  reducers:{
-	changeChatId :(curr,{payload}:{payload:{groupId:number}})=>{
-		curr.groupId  = payload.groupId;
-	}
-  }
+  reducers: {
+    changeChat(_, { payload }: { payload: chatSchema }) {
+      return { ...payload };
+    },
+    addChat(chat, { payload }) {
+      chat.messages.push(payload);
+      return chat;
+    },
+  },
 });
 
-export const {changeChatId}= chatSlice.actions
-export default chatSlice.reducer
+export const { changeChat ,addChat } = chatSlice.actions;
+export default chatSlice.reducer;
