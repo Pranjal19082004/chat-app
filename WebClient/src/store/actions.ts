@@ -15,3 +15,8 @@ export const SOCKET_CONNECTED = createAction("SOCKET_CONNECTED");
 export const SEND_MESSAGE_TO_WS = createAction<{ message: string }>(
   "SEND_MESSAGE_TO_WS"
 );
+export const CREATE_GROUP = createAction<{
+  userId: number;
+  Name: string;
+  members: number[];
+}>("CREATE_GROUP");

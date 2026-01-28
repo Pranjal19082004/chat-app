@@ -1,4 +1,5 @@
-import jwt, { JsonWebTokenError } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+
 import { z } from "zod";
 import { Prisma } from "../../utility/prismaClient.js";
 import Groups from "../store/group.js";
@@ -31,12 +32,14 @@ export async function onConnect(s: WebSocket, req: any) {
       UserGroup.set(userId, id.groupId);
     });
     //add event listeners
-	s.on("message", (data: RawData) => {
-    const { method, payload } = wsMessageSchema.parse(
-      JSON.parse(data.toString())
-    );
-    router[method]?.(payload, s);
-  });
+    s.on("message", (data: RawData) => {
+		console.log("h-->")
+      const { method, payload } = wsMessageSchema.parse(
+        JSON.parse(data.toString())
+      );
+      console.log(data.toString());
+      router[method]?.(payload, s);
+    });
 
     s.on("close", () => {
       removeFromEverywhere(userId);
@@ -46,7 +49,7 @@ export async function onConnect(s: WebSocket, req: any) {
       removeFromEverywhere(userId);
     });
   } catch (e) {
-    if (e instanceof JsonWebTokenError) {
+    if (e instanceof jwt.JsonWebTokenError) {
       s.close(1008, "need authorization");
     } else {
       s.close(1008, "internal server error ");

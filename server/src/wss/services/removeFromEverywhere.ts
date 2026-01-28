@@ -1,4 +1,4 @@
-import { groupChatController } from "../controllers/chat.controller.js";
+import { groupChatController } from "../controllers/messages/chat.controller.js";
 import Groups from "../store/group.js";
 import UserConnections from "../store/user.js";
 import { UserGroup } from "../store/userGroup.js";

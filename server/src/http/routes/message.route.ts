@@ -2,7 +2,13 @@
 
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
-import { getMessages } from "../controllers/message.js";
+import {
+  getAllMessageAfter,
+  getMessageAfter,
+  getMessages,
+} from "../controllers/message.js";
 const router = Router();
 router.get("/get-messages/:groupId", getMessages);
-export default router ;
+router.get("/get-messages-after", getMessageAfter);
+router.get("/get-all-messages-after", getAllMessageAfter);
+export default router;

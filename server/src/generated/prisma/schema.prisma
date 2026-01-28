@@ -78,4 +78,5 @@ model Message {
   content       String
   sendTimeStamp DateTime @default(now())
   ack           ACK      @default(SINGLE)
+  deleted       Boolean  @default(false)
 }

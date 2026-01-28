@@ -88,25 +88,46 @@ const getAllMessageAfterSchema = z.object({
   id: z.string().pipe(z.coerce.number()),
 });
 export async function getAllMessageAfter(req: authRequest, res: Response) {
-  const { id: mssgId } = getAllMessageAfterSchema.parse(req.query);
-  const { userId } = req.user;
-  const dataRes = await Prisma.members.findMany({
-    where: { userId },
-    select: {
-      group: {
-        select: {
-          message: {
-            where: {
-              id: {
-                gt: mssgId,
+  try {
+    const { id: mssgId } = getAllMessageAfterSchema.parse(req.query);
+    const { userId } = req.user;
+    const dataRes = await Prisma.members.findMany({
+      where: { userId },
+      select: {
+        group: {
+          select: {
+            message: {
+              include: {
+                Sender: {
+                  select: {
+                    username: true,
+                  },
+                },
+              },
+              where: {
+                id: {
+                  gt: mssgId,
+                },
               },
             },
           },
-		  
         },
       },
-    },
-  });
+    });
+    let messages: any[] = [];
+    //@ts-ignore
+    dataRes.forEach((x) => {
+      messages.push(...x.group.message);
+    });
+    messages = messages.map((x) => {
+      return { ...x, senderUsername: x.Sender.username };
+    });
+	
+    console.log(messages);
+    return res.json({ messages: messages });
+  } catch (e) {
+    return res.status(401).json({ error: "bad request" });
+  }
 }
 // not really needed since that will be done on websockets
 export async function DeleteMessage(req: authRequest, res: Response) {

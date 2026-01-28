@@ -6,6 +6,7 @@ interface message {
   sendTimeStamp: Date;
   ack: "SINGLE" | "DOUBLE" | "BLUE";
   deleted: boolean;
+  senderUsername:string
 }
 interface chatSchema {
   groupId: number | null;
@@ -27,11 +28,11 @@ const chatSlice = createSlice({
       return { ...payload };
     },
     addChat(chat, { payload }) {
-      chat.messages.push(payload);
-      return chat;
+      console.log(payload);
+      return { ...chat, messages: [...chat.messages, payload] };
     },
   },
 });
 
-export const { changeChat ,addChat } = chatSlice.actions;
+export const { changeChat, addChat } = chatSlice.actions;
 export default chatSlice.reducer;

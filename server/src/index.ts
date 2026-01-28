@@ -24,9 +24,11 @@ import messageRouter from "./http/routes/message.route.js";
 app.use("/api/message", messageRouter);
 import userRouter from "./http/routes/user.routes.js";
 app.use("/api/user", userRouter);
+app.use((req ,res , next)=>{return res.status(404).json({message:"cant find the route you asked"})})
 const server = createServer(app);
 const wss = initWebSocketServer(server);
 
 server.listen(3000, () => {
   console.log("server is now listening on PORT: 3000\n");
 });
+

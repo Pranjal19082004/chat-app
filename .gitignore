@@ -1,7 +1,7 @@
 node_modules
-server/src/generated/**
+./server/src/generated/prisma/edges.js
 .env
-
+server/src/generated/
 backend
 # =========================
 # Node / TypeScript

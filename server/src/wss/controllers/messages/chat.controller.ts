@@ -1,17 +1,17 @@
-import type { WebSocketChatRequestPayload } from "../../types/types.js";
+import type { WebSocketChatRequestPayload } from "../../../types/types.js";
 import { z, ZodError } from "zod";
-import { Prisma } from "../../utility/prismaClient.js";
+import { Prisma } from "../../../utility/prismaClient.js";
 import { da } from "zod/locales";
-import UserConnections from "../store/user.js";
-import Groups from "../store/group.js";
+import UserConnections from "../../store/user.js";
+import Groups from "../../store/group.js";
 import type { WebSocket as ws } from "ws";
 import WebSocket from "ws";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 const WebSocketChatRequestPayloadSchema = z.object({
-  senderId: z.string().pipe(z.coerce.number()),
-  groupId: z.string().pipe(z.coerce.number()),
+  senderId: z.number(),
+  groupId: z.number(),
   content: z.string(),
-  chatId: z.string().pipe(z.coerce.number()),
+  chatId: z.number().optional().default(128),
 });
 // there is no acknowledgement right now
 
@@ -24,6 +24,7 @@ export async function singleChatController(
 ) {
   try {
     // we will parse the data object contaning sender id group id and content
+    console.log(payload);
     const { senderId, groupId, content, chatId } =
       WebSocketChatRequestPayloadSchema.parse(payload);
 
@@ -31,17 +32,14 @@ export async function singleChatController(
       data: { senderId, groupId, content },
     });
     console.log("message send process is here 1");
-    //TO DO : single chat ack her
-    ws.send(
-      `{'method':'ack' , 'payload':{'chatId':'${chatId}','status':'SENT'}}`
-    );
+    
     // check point --> if here then chat is saved on db now we need to push this chat to group members
     const groupUserIds = Groups.get(groupId);
     //chk pt--> waise toh possible nahi hai ki group id na ho since group ke kisi bhi member ke connect hota woh group register hojata hai (not implemented till now T_T :) )
     if (typeof groupUserIds != "undefined") {
       groupUserIds.forEach((userId, idx) => {
         const recieverSocket = UserConnections.get(userId);
-        if (userId != senderId && recieverSocket instanceof WebSocket) {
+        if ( recieverSocket instanceof WebSocket) {
           const dataObject = {
             method: "CHAT",
             payload: { ...savedChatRes },
@@ -52,7 +50,6 @@ export async function singleChatController(
           } catch (e) {
             Groups.delete(groupId, idx);
           }
-          ws.send(`{"ack ack"}`);
         } else if (typeof recieverSocket == undefined) {
           UserConnections.delete(userId);
         }

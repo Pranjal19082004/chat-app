@@ -10,9 +10,16 @@ export const getMessages = (
   });
 
 export const getMessagesAfter = (groupId: number, mssgId: number) =>
-  apiClient.get(`/message/get-messages-after/`, {
+  apiClient.get(`/message/get-messages-after`, {
     params: {
       id: mssgId,
       groupId,
+    },
+  });
+
+export const getAllMessagesAfter = (mssgId: number) =>
+  apiClient.get("/message/get-all-messages-after", {
+    params: {
+      id: mssgId,
     },
   });

@@ -5908,6 +5908,7 @@ export namespace Prisma {
     content: string | null
     sendTimeStamp: Date | null
     ack: $Enums.ACK | null
+    deleted: boolean | null
   }
 
   export type MessageMaxAggregateOutputType = {
@@ -5917,6 +5918,7 @@ export namespace Prisma {
     content: string | null
     sendTimeStamp: Date | null
     ack: $Enums.ACK | null
+    deleted: boolean | null
   }
 
   export type MessageCountAggregateOutputType = {
@@ -5926,6 +5928,7 @@ export namespace Prisma {
     content: number
     sendTimeStamp: number
     ack: number
+    deleted: number
     _all: number
   }
 
@@ -5949,6 +5952,7 @@ export namespace Prisma {
     content?: true
     sendTimeStamp?: true
     ack?: true
+    deleted?: true
   }
 
   export type MessageMaxAggregateInputType = {
@@ -5958,6 +5962,7 @@ export namespace Prisma {
     content?: true
     sendTimeStamp?: true
     ack?: true
+    deleted?: true
   }
 
   export type MessageCountAggregateInputType = {
@@ -5967,6 +5972,7 @@ export namespace Prisma {
     content?: true
     sendTimeStamp?: true
     ack?: true
+    deleted?: true
     _all?: true
   }
 
@@ -6063,6 +6069,7 @@ export namespace Prisma {
     content: string
     sendTimeStamp: Date
     ack: $Enums.ACK
+    deleted: boolean
     _count: MessageCountAggregateOutputType | null
     _avg: MessageAvgAggregateOutputType | null
     _sum: MessageSumAggregateOutputType | null
@@ -6091,6 +6098,7 @@ export namespace Prisma {
     content?: boolean
     sendTimeStamp?: boolean
     ack?: boolean
+    deleted?: boolean
     group?: boolean | GroupDefaultArgs<ExtArgs>
     Sender?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
@@ -6102,6 +6110,7 @@ export namespace Prisma {
     content?: boolean
     sendTimeStamp?: boolean
     ack?: boolean
+    deleted?: boolean
     group?: boolean | GroupDefaultArgs<ExtArgs>
     Sender?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
@@ -6113,6 +6122,7 @@ export namespace Prisma {
     content?: boolean
     sendTimeStamp?: boolean
     ack?: boolean
+    deleted?: boolean
     group?: boolean | GroupDefaultArgs<ExtArgs>
     Sender?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
@@ -6124,9 +6134,10 @@ export namespace Prisma {
     content?: boolean
     sendTimeStamp?: boolean
     ack?: boolean
+    deleted?: boolean
   }
 
-  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "groupId" | "senderId" | "content" | "sendTimeStamp" | "ack", ExtArgs["result"]["message"]>
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "groupId" | "senderId" | "content" | "sendTimeStamp" | "ack" | "deleted", ExtArgs["result"]["message"]>
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     group?: boolean | GroupDefaultArgs<ExtArgs>
     Sender?: boolean | UserDefaultArgs<ExtArgs>
@@ -6153,6 +6164,7 @@ export namespace Prisma {
       content: string
       sendTimeStamp: Date
       ack: $Enums.ACK
+      deleted: boolean
     }, ExtArgs["result"]["message"]>
     composites: {}
   }
@@ -6584,6 +6596,7 @@ export namespace Prisma {
     readonly content: FieldRef<"Message", 'String'>
     readonly sendTimeStamp: FieldRef<"Message", 'DateTime'>
     readonly ack: FieldRef<"Message", 'ACK'>
+    readonly deleted: FieldRef<"Message", 'Boolean'>
   }
     
 
@@ -7060,7 +7073,8 @@ export namespace Prisma {
     senderId: 'senderId',
     content: 'content',
     sendTimeStamp: 'sendTimeStamp',
-    ack: 'ack'
+    ack: 'ack',
+    deleted: 'deleted'
   };
 
   export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
@@ -7176,6 +7190,13 @@ export namespace Prisma {
    * Reference to a field of type 'ACK[]'
    */
   export type ListEnumACKFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ACK[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -7444,6 +7465,7 @@ export namespace Prisma {
     content?: StringFilter<"Message"> | string
     sendTimeStamp?: DateTimeFilter<"Message"> | Date | string
     ack?: EnumACKFilter<"Message"> | $Enums.ACK
+    deleted?: BoolFilter<"Message"> | boolean
     group?: XOR<GroupScalarRelationFilter, GroupWhereInput>
     Sender?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -7455,6 +7477,7 @@ export namespace Prisma {
     content?: SortOrder
     sendTimeStamp?: SortOrder
     ack?: SortOrder
+    deleted?: SortOrder
     group?: GroupOrderByWithRelationInput
     Sender?: UserOrderByWithRelationInput
   }
@@ -7469,6 +7492,7 @@ export namespace Prisma {
     content?: StringFilter<"Message"> | string
     sendTimeStamp?: DateTimeFilter<"Message"> | Date | string
     ack?: EnumACKFilter<"Message"> | $Enums.ACK
+    deleted?: BoolFilter<"Message"> | boolean
     group?: XOR<GroupScalarRelationFilter, GroupWhereInput>
     Sender?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -7480,6 +7504,7 @@ export namespace Prisma {
     content?: SortOrder
     sendTimeStamp?: SortOrder
     ack?: SortOrder
+    deleted?: SortOrder
     _count?: MessageCountOrderByAggregateInput
     _avg?: MessageAvgOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
@@ -7497,6 +7522,7 @@ export namespace Prisma {
     content?: StringWithAggregatesFilter<"Message"> | string
     sendTimeStamp?: DateTimeWithAggregatesFilter<"Message"> | Date | string
     ack?: EnumACKWithAggregatesFilter<"Message"> | $Enums.ACK
+    deleted?: BoolWithAggregatesFilter<"Message"> | boolean
   }
 
   export type UserCreateInput = {
@@ -7722,6 +7748,7 @@ export namespace Prisma {
     content: string
     sendTimeStamp?: Date | string
     ack?: $Enums.ACK
+    deleted?: boolean
     group: GroupCreateNestedOneWithoutMessageInput
     Sender: UserCreateNestedOneWithoutMessageInput
   }
@@ -7733,12 +7760,14 @@ export namespace Prisma {
     content: string
     sendTimeStamp?: Date | string
     ack?: $Enums.ACK
+    deleted?: boolean
   }
 
   export type MessageUpdateInput = {
     content?: StringFieldUpdateOperationsInput | string
     sendTimeStamp?: DateTimeFieldUpdateOperationsInput | Date | string
     ack?: EnumACKFieldUpdateOperationsInput | $Enums.ACK
+    deleted?: BoolFieldUpdateOperationsInput | boolean
     group?: GroupUpdateOneRequiredWithoutMessageNestedInput
     Sender?: UserUpdateOneRequiredWithoutMessageNestedInput
   }
@@ -7750,6 +7779,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     sendTimeStamp?: DateTimeFieldUpdateOperationsInput | Date | string
     ack?: EnumACKFieldUpdateOperationsInput | $Enums.ACK
+    deleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageCreateManyInput = {
@@ -7759,12 +7789,14 @@ export namespace Prisma {
     content: string
     sendTimeStamp?: Date | string
     ack?: $Enums.ACK
+    deleted?: boolean
   }
 
   export type MessageUpdateManyMutationInput = {
     content?: StringFieldUpdateOperationsInput | string
     sendTimeStamp?: DateTimeFieldUpdateOperationsInput | Date | string
     ack?: EnumACKFieldUpdateOperationsInput | $Enums.ACK
+    deleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageUncheckedUpdateManyInput = {
@@ -7774,6 +7806,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     sendTimeStamp?: DateTimeFieldUpdateOperationsInput | Date | string
     ack?: EnumACKFieldUpdateOperationsInput | $Enums.ACK
+    deleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -8112,6 +8145,11 @@ export namespace Prisma {
     not?: NestedEnumACKFilter<$PrismaModel> | $Enums.ACK
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type MessageCountOrderByAggregateInput = {
     id?: SortOrder
     groupId?: SortOrder
@@ -8119,6 +8157,7 @@ export namespace Prisma {
     content?: SortOrder
     sendTimeStamp?: SortOrder
     ack?: SortOrder
+    deleted?: SortOrder
   }
 
   export type MessageAvgOrderByAggregateInput = {
@@ -8134,6 +8173,7 @@ export namespace Prisma {
     content?: SortOrder
     sendTimeStamp?: SortOrder
     ack?: SortOrder
+    deleted?: SortOrder
   }
 
   export type MessageMinOrderByAggregateInput = {
@@ -8143,6 +8183,7 @@ export namespace Prisma {
     content?: SortOrder
     sendTimeStamp?: SortOrder
     ack?: SortOrder
+    deleted?: SortOrder
   }
 
   export type MessageSumOrderByAggregateInput = {
@@ -8159,6 +8200,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumACKFilter<$PrismaModel>
     _max?: NestedEnumACKFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ContactCreateNestedManyWithoutUserInput = {
@@ -8513,6 +8562,10 @@ export namespace Prisma {
     set?: $Enums.ACK
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type GroupUpdateOneRequiredWithoutMessageNestedInput = {
     create?: XOR<GroupCreateWithoutMessageInput, GroupUncheckedCreateWithoutMessageInput>
     connectOrCreate?: GroupCreateOrConnectWithoutMessageInput
@@ -8700,6 +8753,11 @@ export namespace Prisma {
     not?: NestedEnumACKFilter<$PrismaModel> | $Enums.ACK
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedEnumACKWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.ACK | EnumACKFieldRefInput<$PrismaModel>
     in?: $Enums.ACK[] | ListEnumACKFieldRefInput<$PrismaModel>
@@ -8708,6 +8766,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumACKFilter<$PrismaModel>
     _max?: NestedEnumACKFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ContactCreateWithoutUserInput = {
@@ -8775,6 +8841,7 @@ export namespace Prisma {
     content: string
     sendTimeStamp?: Date | string
     ack?: $Enums.ACK
+    deleted?: boolean
     group: GroupCreateNestedOneWithoutMessageInput
   }
 
@@ -8784,6 +8851,7 @@ export namespace Prisma {
     content: string
     sendTimeStamp?: Date | string
     ack?: $Enums.ACK
+    deleted?: boolean
   }
 
   export type MessageCreateOrConnectWithoutSenderInput = {
@@ -8890,6 +8958,7 @@ export namespace Prisma {
     content?: StringFilter<"Message"> | string
     sendTimeStamp?: DateTimeFilter<"Message"> | Date | string
     ack?: EnumACKFilter<"Message"> | $Enums.ACK
+    deleted?: BoolFilter<"Message"> | boolean
   }
 
   export type UserCreateWithoutContactsOfUserInput = {
@@ -9043,6 +9112,7 @@ export namespace Prisma {
     content: string
     sendTimeStamp?: Date | string
     ack?: $Enums.ACK
+    deleted?: boolean
     Sender: UserCreateNestedOneWithoutMessageInput
   }
 
@@ -9052,6 +9122,7 @@ export namespace Prisma {
     content: string
     sendTimeStamp?: Date | string
     ack?: $Enums.ACK
+    deleted?: boolean
   }
 
   export type MessageCreateOrConnectWithoutGroupInput = {
@@ -9335,6 +9406,7 @@ export namespace Prisma {
     content: string
     sendTimeStamp?: Date | string
     ack?: $Enums.ACK
+    deleted?: boolean
   }
 
   export type ContactUpdateWithoutUserInput = {
@@ -9389,6 +9461,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     sendTimeStamp?: DateTimeFieldUpdateOperationsInput | Date | string
     ack?: EnumACKFieldUpdateOperationsInput | $Enums.ACK
+    deleted?: BoolFieldUpdateOperationsInput | boolean
     group?: GroupUpdateOneRequiredWithoutMessageNestedInput
   }
 
@@ -9398,6 +9471,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     sendTimeStamp?: DateTimeFieldUpdateOperationsInput | Date | string
     ack?: EnumACKFieldUpdateOperationsInput | $Enums.ACK
+    deleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageUncheckedUpdateManyWithoutSenderInput = {
@@ -9406,6 +9480,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     sendTimeStamp?: DateTimeFieldUpdateOperationsInput | Date | string
     ack?: EnumACKFieldUpdateOperationsInput | $Enums.ACK
+    deleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MembersCreateManyGroupInput = {
@@ -9421,6 +9496,7 @@ export namespace Prisma {
     content: string
     sendTimeStamp?: Date | string
     ack?: $Enums.ACK
+    deleted?: boolean
   }
 
   export type MembersUpdateWithoutGroupInput = {
@@ -9447,6 +9523,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     sendTimeStamp?: DateTimeFieldUpdateOperationsInput | Date | string
     ack?: EnumACKFieldUpdateOperationsInput | $Enums.ACK
+    deleted?: BoolFieldUpdateOperationsInput | boolean
     Sender?: UserUpdateOneRequiredWithoutMessageNestedInput
   }
 
@@ -9456,6 +9533,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     sendTimeStamp?: DateTimeFieldUpdateOperationsInput | Date | string
     ack?: EnumACKFieldUpdateOperationsInput | $Enums.ACK
+    deleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MessageUncheckedUpdateManyWithoutGroupInput = {
@@ -9464,6 +9542,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     sendTimeStamp?: DateTimeFieldUpdateOperationsInput | Date | string
     ack?: EnumACKFieldUpdateOperationsInput | $Enums.ACK
+    deleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
 
