@@ -1,0 +1,125 @@
+import { response } from "express";
+import { Prisma } from "../../utility/prismaClient.js";
+import { Type } from "../../generated/prisma/index.js";
+import z, { ZodError } from "zod";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
+//create a group api
+const createGroupRequestSchema = z.object({
+    type: z.enum(["SINGLE", "GROUP"]),
+    Name: z.string(),
+    data: z.array(z.number()), // data will conatin userid  array who will be joining the group
+});
+export async function createGroup(req, res) {
+    // we will need id of the user to make him the part of the group
+    try {
+        const id = z.number().parse(req.user.userId);
+        console.log(req.body);
+        const { type, Name: groupName, data, } = createGroupRequestSchema.parse(req.body);
+        data.push(id);
+        console.log(data);
+        // create a group entry
+        const dataEntries = data.map((x) => {
+            return { userId: x };
+        });
+        const groupCreatedRes = Prisma.group.create({
+            data: {
+                type: Type[type],
+                Name: groupName,
+                members: {
+                    create: dataEntries,
+                },
+            },
+        });
+        return res.status(200).json({
+            message: "group created ",
+            "group id": (await groupCreatedRes).id,
+        });
+    }
+    catch (e) {
+        if (e instanceof ZodError) {
+            return res.status(400).json({ error: "bad request" });
+        }
+        else {
+            return res.status(500).json({ error: "internal Server Error" });
+        }
+    }
+}
+5;
+export async function getUserGroup(req, res) {
+    try {
+        const userId = z.number().parse(req.user.userId);
+        const findGroupRes = await Prisma.members.findMany({
+            where: { userId },
+            select: {
+                groupId: true,
+                group: { select: { Name: true, type: true, CreatedAt: true } },
+            },
+        });
+        const userGroupsList = findGroupRes.map((x) => {
+            return {
+                groupId: x.groupId,
+                groupName: x.group.Name,
+                type: x.group.type,
+                createdAt: x.group.CreatedAt,
+            };
+        });
+        return res.status(200).json({ groups: userGroupsList });
+    }
+    catch (e) {
+        res.status(500).json({ error: "internal server error" });
+    }
+}
+// to be removed since it is will done using webSocket
+//join a group api
+const joinGroupRequestSchema = z.object({
+    groupId: z.number(),
+});
+export async function joinGroup(req, res) {
+    // need a group id and user id to make entry to the member
+    try {
+        const userId = z.number().parse(req.user.userId);
+        const { groupId } = joinGroupRequestSchema.parse(req.body);
+        const joinGroupRes = await Prisma.members.create({
+            data: { userId, groupId },
+        });
+        return res.status(400).json({ message: "group joined successfully" });
+    }
+    catch (e) {
+        if (e instanceof ZodError) {
+            return res.status(400).json({ error: "bad request" });
+        }
+        else if (e instanceof PrismaClientKnownRequestError) {
+            return res.status(409).json({ error: "you already part of the group" });
+        }
+        else {
+            return res.status(500).json({ error: "internal server error" });
+        }
+    }
+}
+// leave a group api
+const leaveGroupRequestSchema = z.object({ groupId: z.number() });
+export async function leaveGroup(req, res) {
+    try {
+        const userId = z.number().parse(req.user.userId);
+        const { groupId } = leaveGroupRequestSchema.parse(req.body);
+        const leaveGroupRes = await Prisma.members.update({
+            where: { userId_groupId: { userId, groupId } },
+            data: { leftAt: new Date() },
+        });
+        return res.status(200).json({ message: "successfully left the group" });
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            return res.status(500).json({ error: e.message });
+        }
+        else if (e instanceof ZodError) {
+            return res.status(400).json({ message: "bad request" });
+        }
+        else {
+            return res.status(500).json({ message: "internal server error" });
+        }
+    }
+}
+// to get all the groups, a user is part of :
+// first take all entries of members (participant table )--> group id
+//# sourceMappingURL=group.js.map

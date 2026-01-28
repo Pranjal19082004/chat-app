@@ -1,0 +1,1 @@
+{"version":3,"file":"userGroup.d.ts","sourceRoot":"","sources":["../../../src/wss/store/userGroup.ts"],"names":[],"mappings":"AAyBA,QAAA,MAAM,SAAS;kBAvBC,MAAM,KAAG,GAAG,CAAC,MAAM,CAAC,GAAG,SAAS;kBAChC,MAAM,WAAW,MAAM,KAAG,IAAI;qBAO3B,MAAM,WAAW,MAAM,KAAG,IAAI;yBAQ1B,MAAM,KAAG,IAAI;EAOU,CAAC;AAC/C,OAAO,EAAE,SAAS,EAAE,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"group.d.ts","sourceRoot":"","sources":["../../../src/wss/store/group.ts"],"names":[],"mappings":"AA2BA,QAAA,MAAM,MAAM;mBAvBK,MAAM,KAAG,GAAG,CAAC,MAAM,CAAC,GAAG,SAAS;mBAChC,MAAM,UAAU,MAAM,KAAG,IAAI;sBAO1B,MAAM,UAAU,MAAM,KAAG,IAAI;2BAQxB,MAAM,KAAG,IAAI;EAOM,CAAC;AAC7C,eAAe,MAAM,CAAC"}
