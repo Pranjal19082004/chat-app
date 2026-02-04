@@ -3,10 +3,9 @@ import jwt from "jsonwebtoken";
 export function authMiddleware(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
-	
     let token = req.headers.authorization ?? " ";
     token = token.split(" ")[1] ?? " ";
     if (!token) {
@@ -19,7 +18,7 @@ export function authMiddleware(
     next();
   } catch (e) {
     if (e instanceof jwt.JsonWebTokenError) {
-      return res.json(403).json({ message: "please signin" });
+      return res.status(403).json({ message: "please signin" });
     } else if (e instanceof jwt.TokenExpiredError) {
       return res.status(403).json({ message: "your token is expired" });
     }

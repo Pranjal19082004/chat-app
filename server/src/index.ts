@@ -4,6 +4,7 @@ import { config } from "dotenv";
 import cors from "cors";
 config();
 import "./utility/prismaClient.js";
+await Prisma.$connect().then(()=>console.log("server connected"))
 import initWebSocketServer from "./wss/index.js";
 const app = express();
 //parsing middlewares and cors
@@ -23,6 +24,7 @@ app.use("/api/contact", contactRouter);
 import messageRouter from "./http/routes/message.route.js";
 app.use("/api/message", messageRouter);
 import userRouter from "./http/routes/user.routes.js";
+import { Prisma } from "./utility/prismaClient.js";
 app.use("/api/user", userRouter);
 app.use((req ,res , next)=>{return res.status(404).json({message:"cant find the route you asked"})})
 const server = createServer(app);
