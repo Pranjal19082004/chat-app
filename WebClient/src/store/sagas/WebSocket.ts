@@ -1,7 +1,6 @@
 import {
   END,
   eventChannel,
-  type EventChannel,
   type SagaIterator,
 } from "redux-saga";
 import {
@@ -36,11 +35,13 @@ export default function* watcherWebSocket(): SagaIterator {
         yield take("LOGIN_SUCCESSFUL");
         token = localStorage.getItem("token");
       }
-      let ws = new WebSocket(`ws://localhost:3000?token=${token}`);
+      let ws = new WebSocket(
+        `ws://${import.meta.env.VITE_API_URL}?token=${token}`,
+      );
       yield delay(1000);
       //   wait before retry
       while (ws.readyState != WebSocket.OPEN) {
-        ws = new WebSocket(`ws://localhost:3000?token=${token}`);
+        ws = new WebSocket(`ws://${import.meta.env.VITE_API_URL}?token=${token}`);
         yield delay(3000);
       }
 
