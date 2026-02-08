@@ -21,4 +21,4 @@ jobs :
           context: .
           file: ./docker/dockerfile.backend
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/chat-app-backend:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/chat-app-backend:${{ github.sha }}
