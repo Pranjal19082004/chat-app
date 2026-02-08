@@ -18,10 +18,5 @@ jobs :
           context: .
           file: ./docker/dockerfile.backend
           push: true
-          tags: ${{secrets.DOCKER_USERNAME}}/chat-app-frontend:${{github.sha}}
-          build-args: VITE_API_URL=${{secrets.VITE_API_URL}}
-	  
-
-
-
-
+          tags: ${{ secrets.DOCKER_USERNAME }}/chat-app-frontend:${{ github.sha }}
+          build-args: VITE_API_URL=${{ secrets.VITE_API_URL }}
