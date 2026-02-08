@@ -2,7 +2,7 @@ name : CI BUILD BACKEND
 on : 
   push:
     branches:
-      -main
+      - main
 jobs : 
   build-backend:
     runs-on : ubuntu-latest
