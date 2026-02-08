@@ -1,4 +1,4 @@
-name : CI BUILD 
+name : CI BUILD BACKEND
 on : 
   push:
     branches:
