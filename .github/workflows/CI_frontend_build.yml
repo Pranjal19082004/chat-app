@@ -1,0 +1,27 @@
+name : CI BUILD 
+on : [push]
+jobs : 
+  build-and-test:
+    runs-on : ubuntu-latest
+    steps:
+      - name : copy my repo to machine 
+        uses : actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: push the repo
+        uses: docker/build-push-action@v5
+        with: 
+          context: .
+          file: ./docker/dockerfile.backend
+          push: true
+          tags: ${{secrets.DOCKER_USERNAME}}/chat-app-frontend:${{github.sha}}
+          build-args: VITE_API_URL=${{secrets.VITE_API_URL}}
+	  
+
+
+
+

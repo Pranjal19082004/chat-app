@@ -1,0 +1,9 @@
+FROM node:20-alpine
+WORKDIR /chat-app/WebClient/
+ARG VITE_API_URL_ARG
+COPY ../WebClient /chat-app/WebClient
+RUN npm i
+ENV VITE_API_URL=$VITE_API_URL_ARG
+RUN npx vite build
+EXPOSE 5173
+CMD ["npm","run","dev"]
